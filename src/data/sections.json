@@ -1,0 +1,80 @@
+[
+  {
+    "folder": "projects",
+    "route": "projects",
+    "title": "Projeler",
+    "singular": "Proje",
+    "description": "Günlük hayattaki sorulardan yazılım ve veri çalışmalarına.",
+    "archive": true,
+    "detail": true,
+    "home": true,
+    "homeLimit": 3,
+    "nav": true,
+    "kind": "project"
+  },
+  {
+    "folder": "research",
+    "route": "research",
+    "title": "Araştırmalar",
+    "singular": "Araştırma",
+    "description": "Ekonometrik modeller, ampirik çalışmalar ve akademik araştırmalar.",
+    "archive": true,
+    "detail": true,
+    "home": true,
+    "homeLimit": 3,
+    "nav": true,
+    "kind": "research"
+  },
+  {
+    "folder": "experience",
+    "route": "experience",
+    "title": "Deneyim",
+    "singular": "Deneyim",
+    "description": "Çalışma hayatı, sorumluluklar ve katkılar.",
+    "archive": true,
+    "detail": true,
+    "home": true,
+    "homeLimit": 3,
+    "nav": true,
+    "kind": "experience"
+  },
+  {
+    "folder": "education",
+    "route": "education",
+    "title": "Eğitim",
+    "singular": "Eğitim",
+    "description": "Akademik geçmişim.",
+    "archive": false,
+    "detail": false,
+    "home": true,
+    "homeLimit": 0,
+    "nav": false,
+    "kind": "education"
+  },
+  {
+    "folder": "blog",
+    "route": "blog",
+    "title": "Yazılar",
+    "singular": "Yazı",
+    "description": "İktisat, araştırma ve öğrendiklerim üzerine notlar.",
+    "archive": true,
+    "detail": true,
+    "home": true,
+    "homeLimit": 3,
+    "nav": true,
+    "kind": "article"
+  },
+  {
+    "folder": "personal-projects",
+    "route": "explorations",
+    "title": "Keşifler",
+    "singular": "Kişisel çalışma",
+    "description": "Deneyler, kişisel üretimler ve merakın götürdüğü yerler.",
+    "archive": true,
+    "detail": true,
+    "home": true,
+    "homeLimit": 3,
+    "nav": true,
+    "kind": "exploration"
+  }
+]

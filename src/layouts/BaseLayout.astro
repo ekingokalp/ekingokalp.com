@@ -1,0 +1,66 @@
+---
+import site from '../data/site.json';
+import { publishedEntries, activeSections } from '../lib/content';
+import '../styles/global.css';
+interface Props { title?: string; description?: string; image?: string; imageAlt?: string; article?: boolean; noindex?: boolean; schema?: Record<string, unknown>; }
+const { title, description = site.description, image, imageAlt, article = false, noindex = false, schema } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : site.title;
+const canonical = new URL(noindex && Astro.url.pathname.startsWith('/404') ? '/404.html' : Astro.url.pathname, site.siteUrl).href;
+const nav = activeSections(await publishedEntries()).filter(s => s.nav && s.archive);
+const personId = `${site.siteUrl}/#person`;
+const baseSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type':'Person', '@id':personId, name:site.name, url:`${site.siteUrl}/`, sameAs:site.socials.map(s=>s.url), description:site.heroDescription },
+    { '@type':'WebSite', '@id':`${site.siteUrl}/#website`, url:`${site.siteUrl}/`, name:site.title, description:site.description, inLanguage:'tr-TR', author:{'@id':personId} },
+    { '@type':'WebPage', '@id':`${canonical}#webpage`, url:canonical, name:pageTitle, description, inLanguage:'tr-TR', isPartOf:{'@id':`${site.siteUrl}/#website`}, about:{'@id':personId} },
+    ...(schema ? [schema] : [])
+  ]
+};
+const jsonLd = JSON.stringify(baseSchema).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang={site.language} id="top">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131b20" media="(prefers-color-scheme: dark)" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {image && <><meta property="og:image" content={new URL(image, site.siteUrl).href}/><meta name="twitter:image" content={new URL(image, site.siteUrl).href}/><meta property="og:image:alt" content={imageAlt || ''}/><meta name="twitter:image:alt" content={imageAlt || ''}/></>}
+    <script type="application/ld+json" is:inline set:html={jsonLd} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">İçeriğe geç</a>
+    <header class="site-header container">
+      <a class="wordmark" href="/" aria-label="Ekin Gökalp, ana sayfa">Ekin Gökalp<span aria-hidden="true">.</span></a>
+      <nav aria-label="Ana menü">
+        <a href="/#hakkimda">Hakkımda</a>
+        {nav.map(s => <a href={`/${s.route}/`} aria-current={Astro.url.pathname.startsWith(`/${s.route}/`) ? 'page' : undefined}>{s.title}</a>)}
+        <a href="/#iletisim">İletişim</a>
+      </nav>
+    </header>
+    <main id="main" class="container" tabindex="-1"><slot /></main>
+    <footer class="site-footer container">
+      <p>© {new Date().getUTCFullYear()} {site.name}</p>
+      <p>{site.footerNote}</p>
+      <a href="#top">Başa dön <span aria-hidden="true">↑</span></a>
+    </footer>
+  </body>
+</html>

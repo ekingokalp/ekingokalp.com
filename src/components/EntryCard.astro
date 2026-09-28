@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import { entryHref, sectionFor, period, type Entry } from '../lib/content';
+interface Props { entry: Entry; featured?: boolean; number?: number; }
+const { entry, featured = false, number } = Astro.props;
+const { data } = entry;
+const section = sectionFor(entry);
+const external = !!data.externalUrl;
+const metaDate = period(entry);
+---
+<article class:list={['entry-card', { 'featured-card': featured }]}>
+  {data.image && <a class="cover-link" href={entryHref(entry)} tabindex="-1" aria-hidden="true"><Image src={data.image} alt={data.imageAlt || ''} widths={[360,720,1080]} sizes={featured ? '(max-width: 700px) 100vw, 560px' : '(max-width: 700px) 100vw, 360px'} format="webp" loading="lazy" decoding="async" class="card-cover" /></a>}
+  <div class="entry-meta"><span>{section.singular}</span>{metaDate && <span>{metaDate}</span>}{featured && number && <span class="entry-number" aria-hidden="true">{String(number).padStart(2,'0')}</span>}</div>
+  <h3><a href={entryHref(entry)}>{data.title}{external && <span class="external-marker" aria-hidden="true"> ↗</span>}{external && <span class="sr-only"> — harici yazı</span>}</a></h3>
+  {data.subtitle && <p class="entry-subtitle">{data.subtitle}</p>}
+  <p class="entry-description">{data.description}</p>
+  {!!data.technologies.length && <ul class="tag-list" aria-label="Kullanılan teknolojiler">{data.technologies.map(t=><li>{t}</li>)}</ul>}
+  {!!data.tags.length && <p class="entry-tags">{data.tags.join(' · ')}</p>}
+  <div class="entry-footer">
+    {data.status && <span class="status">{data.status}</span>}
+    {data.github && <a href={data.github} aria-label={`${data.title}: GitHub kaynak kodu`}>GitHub <span aria-hidden="true">↗</span></a>}
+    {data.website && <a href={data.website} aria-label={`${data.title}: proje sitesi`}>Proje sitesi <span aria-hidden="true">↗</span></a>}
+    {external && <span class="source-domain">{new URL(data.externalUrl!).hostname.replace(/^www\./,'')}</span>}
+    {!external && <a href={entryHref(entry)} aria-label={`${data.title}: çalışmayı incele`}>İncele <span aria-hidden="true">→</span></a>}
+  </div>
+</article>

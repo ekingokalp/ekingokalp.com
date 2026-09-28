@@ -1,0 +1,20 @@
+---
+import { render } from 'astro:content';
+import { period, type Entry } from '../lib/content';
+interface Props { entries: Entry[]; }
+const { entries } = Astro.props;
+const rendered = await Promise.all(entries.map(async entry=>({entry, ...(await render(entry))})));
+---
+<div class="timeline">
+  {rendered.map(({entry,Content}) => <article class="timeline-item">
+    <p class="timeline-date">{period(entry)}</p>
+    <div>
+      <h3>{entry.data.title}</h3>
+      {entry.data.subtitle && <p class="entry-subtitle">{entry.data.subtitle}</p>}
+      {entry.data.role && <p>{entry.data.role}{entry.data.organization ? ` · ${entry.data.organization}` : ''}</p>}
+      {entry.data.degree && <p>{entry.data.degree}</p>}
+      {(entry.data.grade || entry.data.achievements.length > 0) && <p class="achievement">{[...entry.data.achievements, entry.data.grade ? `GNO ${entry.data.grade}` : undefined].filter(Boolean).join(' · ')}</p>}
+      <div class="prose timeline-prose"><Content /></div>
+    </div>
+  </article>)}
+</div>

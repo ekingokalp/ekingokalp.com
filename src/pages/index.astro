@@ -1,0 +1,47 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EntryCard from '../components/EntryCard.astro';
+import ContentSection from '../components/ContentSection.astro';
+import site from '../data/site.json';
+import { publishedEntries, featuredEntries, sections, inSection } from '../lib/content';
+const entries = await publishedEntries();
+const featured = featuredEntries(entries).slice(0,3);
+const about = await getEntry('about','ekin');
+const { Content: AboutContent } = await render(about!);
+const education = entries.find(e=>e.id === site.educationHighlight);
+---
+<BaseLayout>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-main">
+      <p class="eyebrow">{site.eyebrow}</p>
+      <h1 id="hero-title">{site.heroTitle}</h1>
+      <p class="hero-lead">{site.heroLead}</p>
+      <p class="hero-description">{site.heroDescription}</p>
+      <div class="links">{site.socials.map(link=><a href={link.url}>{link.label} <span aria-hidden="true">↗</span></a>)}</div>
+    </div>
+    <aside class="hero-aside" aria-label="Akademik geçmiş ve çalışma odağı">
+      {education && <div><p class="aside-label">{education.data.degree}</p><p class="aside-title">{education.data.title}</p><p>{education.data.endDate}</p><p class="aside-achievement">{education.data.achievements.join(' · ')}</p><p class="grade">{education.data.grade}<span>genel not ortalaması</span></p></div>}
+      <div class="aside-focus"><p class="aside-label">Çalışma odağım</p><p>{site.focus.map((line,i)=><>{i > 0 && <br/>}{line}</>)}</p></div>
+    </aside>
+  </section>
+
+  {featured.length > 0 && <section class="section featured-section" aria-labelledby="featured-title">
+    <div class="section-heading"><div><p class="eyebrow">Seçilmiş çalışmalar</p><h2 id="featured-title">Öne çıkanlar</h2></div><p class="section-note">Araştırmadan uygulamaya.</p></div>
+    <div class="featured-grid">{featured.map((entry,i)=><EntryCard entry={entry} featured number={i+1}/>)}</div>
+  </section>}
+
+  <section class="section about-section" id="hakkimda" aria-labelledby="about-title">
+    <div><p class="eyebrow">Biraz daha yakından</p><h2 id="about-title">{about!.data.title}</h2></div>
+    <div><div class="prose about-prose"><AboutContent /></div><div class="interest-block"><h3>İlgi alanlarım</h3><ul class="interests">{site.interests.map(i=><li>{i}</li>)}</ul></div></div>
+  </section>
+  <section class="section skills-section" aria-labelledby="skills-title">
+    <div class="section-heading"><h2 id="skills-title">Yöntemler ve araçlar</h2></div>
+    <div class="skills-grid">{site.skills.map(s=><div><h3>{s.title}</h3><ul>{s.items.map(i=><li>{i}</li>)}</ul></div>)}</div>
+  </section>
+  {sections.filter(s=>s.home).map(section=><ContentSection section={section} entries={inSection(entries, section)} home />)}
+  <section class="section contact-section" id="iletisim" aria-labelledby="contact-title">
+    <div><p class="eyebrow">Bağlantıda kalalım</p><h2 id="contact-title">{site.contact.title}</h2></div>
+    <div><p>{site.contact.text}</p><div class="contact-links">{site.contact.links.map(link=><a href={link.url}>{link.label} <span aria-hidden="true">↗</span></a>)}</div></div>
+  </section>
+</BaseLayout>

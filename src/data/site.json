@@ -1,0 +1,84 @@
+{
+  "name": "Ekin Gökalp",
+  "siteUrl": "https://ekingokalp.com",
+  "language": "tr",
+  "locale": "tr_TR",
+  "title": "Ekin Gökalp — Ekonomi, veri ve kişisel çalışmalar",
+  "description": "Ekin Gökalp’in ekonomi, veri analizi, ekonometrik modelleme, araştırma ve kişisel çalışmalarını bir araya getiren kişisel web sitesi.",
+  "eyebrow": "Ekonomi · Veri · Keşif",
+  "heroTitle": "Ekin Gökalp",
+  "heroLead": "Veriden yola çıkıp soruların peşinden gidiyorum.",
+  "heroDescription": "İktisat mezunuyum. Ekonometrik araştırmalar, veri analizi ve günlük hayattaki sorulara yönelik yazılım projeleri üzerinde çalışıyorum.",
+  "socials": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/ekingokalp"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/ekin-gökalp-618709331/"
+    },
+    {
+      "label": "Blog",
+      "url": "https://ekingokalp.tr/"
+    }
+  ],
+  "contact": {
+    "title": "İletişim",
+    "text": "Çalışmalarım hakkında konuşmak veya bağlantı kurmak için:",
+    "links": [
+      {
+        "label": "LinkedIn üzerinden bağlantı kur",
+        "url": "https://www.linkedin.com/in/ekin-gökalp-618709331/"
+      },
+      {
+        "label": "İletişim sayfası",
+        "url": "https://ekingokalp.tr/iletisim/"
+      }
+    ]
+  },
+  "skills": [
+    {
+      "title": "Analiz ve modelleme",
+      "items": [
+        "Panel veri ekonometrisi",
+        "Veri temizleme ve doğrulama",
+        "İstatistiksel çıkarım",
+        "Veri görselleştirme"
+      ]
+    },
+    {
+      "title": "Araçlar",
+      "items": [
+        "R",
+        "Python",
+        "Gretl",
+        "Microsoft Excel"
+      ]
+    },
+    {
+      "title": "Araştırma ve üretim",
+      "items": [
+        "Akademik araştırma",
+        "Kaynaklı raporlama",
+        "REST API entegrasyonu",
+        "Streamlit"
+      ]
+    }
+  ],
+  "interests": [
+    "Motosiklet yolculukları ve kamp",
+    "Yelkencilik ve amatör denizcilik",
+    "Gitar ve müzik teknolojileri",
+    "Fotoğraf",
+    "Dünya mutfakları"
+  ],
+  "educationHighlight": "education/gebze-teknik",
+  "focus": [
+    "Ekonometrik modelleme",
+    "Ampirik araştırma",
+    "Veri ile karar destek"
+  ],
+  "footerNote": "Ekonomi, veri ve merakın götürdüğü yerler.",
+  "blogUrl": "https://ekingokalp.tr/"
+}

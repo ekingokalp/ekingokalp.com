@@ -1,0 +1,16 @@
+---
+import EntryCard from './EntryCard.astro';
+import Timeline from './Timeline.astro';
+import { type Entry, type Section } from '../lib/content';
+interface Props { section: Section; entries: Entry[]; home?: boolean; }
+const { section, entries, home = false } = Astro.props;
+const visible = home && section.homeLimit > 0 ? entries.slice(0, section.homeLimit) : entries;
+const timeline = section.kind === 'education' || section.kind === 'experience';
+---
+{entries.length > 0 && <section class="section content-section" id={section.route} aria-labelledby={`heading-${section.route}`}>
+  <div class="section-heading">
+    <div><p class="eyebrow">{String(entries.length).padStart(2,'0')} {section.kind === 'article' ? 'yazı' : section.kind === 'education' ? 'eğitim' : 'çalışma'}</p><h2 id={`heading-${section.route}`}>{section.title}</h2></div>
+    {home && section.archive && <a class="text-link" href={`/${section.route}/`}>Tümünü gör <span aria-hidden="true">→</span></a>}
+  </div>
+  {timeline ? <Timeline entries={visible} /> : <div class:list={['entry-list', {'blog-list':section.kind === 'article'}]}>{visible.map(entry=><EntryCard entry={entry}/>)}</div>}
+</section>}

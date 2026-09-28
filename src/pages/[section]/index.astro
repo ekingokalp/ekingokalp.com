@@ -1,0 +1,16 @@
+---
+import site from '../../data/site.json';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import { publishedEntries, activeSections, inSection, type Section, type Entry } from '../../lib/content';
+export async function getStaticPaths() {
+  const entries = await publishedEntries();
+  return activeSections(entries).filter(s=>s.archive).map(section=>({params:{section:section.route}, props:{section, entries:inSection(entries,section)}}));
+}
+interface Props { section: Section; entries: Entry[]; }
+const { section, entries } = Astro.props;
+---
+<BaseLayout title={section.title} description={section.description}>
+  <header class="page-intro"><a class="back-link" href="/">← Ana sayfa</a><p class="eyebrow">Ekin Gökalp / {section.title}</p><h1>{section.title}</h1><p class="page-description">{section.description}</p>{section.kind === 'article' && <p class="archive-link"><a href={site.blogUrl}>ekingokalp.tr’deki tüm yazılar <span aria-hidden="true">↗</span></a></p>}</header>
+  <div class="archive-content"><ContentSection section={section} entries={entries}/></div>
+</BaseLayout>
